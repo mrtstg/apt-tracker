@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "apt-tracker"
+version = "0.1.0"
+description = ""
+authors = ["mrtstg <mrtstg@yandex.ru>"]
+readme = "README.md"
+license = "MIT"
+packages = [{include = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "^0.111.0"
+uvicorn = "^0.30.1"
+pydantic = "^2.8.2"
+httpx = "^0.27.0"
+asyncio = "^3.4.3"
+jinja2 = "^3.1.4"
+redis = {extras = ["hedis"], version = "^5.0.7"}
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
