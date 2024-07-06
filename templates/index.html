@@ -74,6 +74,24 @@
         </aside>
         {% endif %}
     </div>
+    <h2 class="title is-3"> Указать СНИЛС </h2>
+    {% if doc == None %}
+    <div class="notification is-primary">
+        Вы можете указать свой СНИЛС и ваша позиция в списках на сайте будет подсвечиваться!
+    </div>
+    {% else %}
+    <div class="notification is-success">
+        Вы уже указали свой СНИЛС - {{ doc }}. Если что, вы можете его сменить.
+    </div>
+    {% endif %}
+    <form method="get" action="/">
+        <label class="label"> Номер СНИЛС </label>
+        <div class="control">
+            <input name="doc" class="input" type="text" placeholder="Номер СНИЛС, 11 символов" pattern=".{11}">
+        </div>
+        <p class="help"> Мы не храним эти данные. Они передаются с вашего устройства при необходимости. </p>
+        <button class="button mt-3 is-success is-fullwidth"> Сохранить </button>
+    </form>
 </section>
 
 {% endblock %}

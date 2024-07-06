@@ -23,7 +23,7 @@ def generate_error(message: str, **kwargs) -> HTMLResponse:
 
 
 @app.get("/")
-async def index(r=Depends(get_redis_conn)):
+async def index(doc: str | None = None, r=Depends(get_redis_conn)):
     groups = await parser.get_cached_groups(r)
     if len(groups) == 0:
         return generate_error(
@@ -68,7 +68,7 @@ async def index(r=Depends(get_redis_conn)):
     # всего льготников
     total_benefits = len(list(filter(lambda x: x.benefit, all_students)))
     benefits_percentage = round(budget_benefits / total_budget_plan, 2)
-    return render_template(
+    resp = render_template(
         "index.html",
         total_students=total_students,
         total_benefits=total_benefits,
@@ -77,4 +77,8 @@ async def index(r=Depends(get_redis_conn)):
         benefits_percentage=benefits_percentage,
         budget_groups=budget_groups,
         non_budget_groups=non_budget_groups,
+        doc=doc,
     )
+    if doc is not None:
+        resp.set_cookie("doc", doc, max_age=34560000)
+    return resp
