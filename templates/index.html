@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block title %} Списки поступающих | mrtstg {% endblock %}
+
+{% block body %}
+
+<section class="section">
+    <nav class="level">
+        {% if total_students %}
+        <div class="level-item has-text-centered">
+            <div>
+                <p class="is-size-1 mb-0"> {{ total_students }} </p>
+                <p class="is-size-3 mb-0"> Всего абитуриентов </p>
+            </div>
+        </div>
+        {% endif %}
+        {% if total_benefits %}
+        <div class="level-item has-text-centered">
+            <div>
+                <p class="is-size-1 mb-0"> {{ total_benefits }} </p>
+                <p class="is-size-3 mb-0"> Всего льготников </p>
+            </div>
+        </div>
+        {% endif %}
+    </nav>
+    <nav class="level">
+        {% if total_plan %}
+        <div class="level-item has-text-centered">
+            <div>
+                <p class="is-size-1 mb-0"> {{ total_plan }} </p>
+                <p class="is-size-4 mb-0"> Общий план набора </p>
+            </div>
+        </div>
+        {% endif %}
+        {% if total_budget_plan %}
+        <div class="level-item has-text-centered">
+            <div>
+                <p class="is-size-1 mb-0"> {{ total_budget_plan }} </p>
+                <p class="is-size-4 mb-0"> План набора </p>
+                <p class="is-size-4 mb-0"> бюджетных мест </p>
+            </div>
+        </div>
+        {% endif %}
+        {% if benefits_percentage %}
+        <div class="level-item has-text-centered">
+            <div>
+                <p class="is-size-1 mb-0"> {{ benefits_percentage }}% </p>
+                <p class="is-size-4 mb-0"> Занято бюджетных </p>
+                <p class="is-size-4 mb-0"> мест льготниками </p>
+            </div>
+        </div>
+        {% endif %}
+    </nav>
+    <h2 class="title is-3"> Списки групп </h2>
+    <div class="is-flex is-flex-direction-row is-flex-wrap-wrap is-fullwidth is-justify-content-space-around">
+        {% if budget_groups %}
+        <aside class="menu">
+            <p class="menu-label"> Бюджетные группы </p>
+            <ul class="menu-list">
+                {% for group in budget_groups %}
+                <li><a href="/group/{{group.id}}">{{group.name}}</a></li>
+                {% endfor %}
+            </ul>
+        </aside>
+        {% endif %}
+        {% if non_budget_groups %}
+        <aside class="menu">
+            <p class="menu-label"> Небюджетные группы </p>
+            <ul class="menu-list">
+                {% for group in non_budget_groups %}
+                <li><a href="/group/{{group.id}}">{{group.name}}</a></li>
+                {% endfor %}
+            </ul>
+        </aside>
+        {% endif %}
+    </div>
+</section>
+
+{% endblock %}
