@@ -1,4 +1,4 @@
-from fastapi import Depends, FastAPI
+from fastapi import Depends, FastAPI, Cookie
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 import itertools
@@ -20,6 +20,33 @@ parser = SiteParser()
 
 def generate_error(message: str, **kwargs) -> HTMLResponse:
     return render_template("error.html", error_message=message, **kwargs)
+
+
+@app.get("/group/{group_id}")
+async def group_page(
+    group_id: int,
+    doc: str | None = Cookie(default=None),
+    r=Depends(get_redis_conn),
+):
+    group = await parser.get_cached_group_info(r, group_id)
+    if group is None:
+        return generate_error(
+            "Группа не найдена или не удалось найти о ней информацию!"
+        )
+
+    benefit_students = list(filter(lambda x: x.benefit, group.students))
+    non_benefit_students = sorted(
+        list(filter(lambda x: not x.benefit, group.students)),
+        key=lambda x: x.grade,
+        reverse=True,
+    )
+    group.students = benefit_students + non_benefit_students
+
+    benefits_amount = len(benefit_students)
+
+    return render_template(
+        "group.html", group=group, benefits_amount=benefits_amount, doc=doc
+    )
 
 
 @app.get("/")

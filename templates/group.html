@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %} Группа {{ group.name }} | mrtstg {% endblock %}
+
+{% block body %}
+
+<section class="section">
+    <nav class="level">
+        <div class="level-item has-text-centered">
+            <div>
+                <p class="is-size-1 mb-0"> {{ group.plan }} </p>
+                <p class="is-size-3 mb-0"> План набора </p>
+            </div>
+        </div>
+        <div class="level-item has-text-centered">
+            <div>
+                <p class="is-size-1 mb-0"> {{ benefits_amount }} </p>
+                <p class="is-size-3 mb-0"> Льготников </p>
+            </div>
+        </div>
+    </nav>
+    <div class="notification is-warning">
+        Льготники выделены красным и находятся в начале списка! Проходящие на бюджет выделены жирным. Если вы указали свой СНИЛС,
+        ваша позиция будет выделена зеленым.
+    </div>
+    <table class="table mx-auto is-centered">
+        <thead>
+            <tr>
+                <th> Позиция </th>
+                <th> Номер СНИЛС </th>
+                <th> Балл </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student in group.students %}
+            {% set is_success = loop.index <= group.plan %}
+            {% if doc == student.doc_number %}
+                {% if is_success %}
+                    {% set row_class="is-selected" %}
+                {% else %}
+                    {% set row_class="is-selected has-text-weight-bold" %}
+                {% endif %}
+            {% else %}
+                {% if student.benefit %}
+                    {% set row_class="has-background-danger" %}
+                {% else %}
+                    {% if is_success %}
+                        {% set row_class="has-text-weight-bold" %}
+                    {% else %}
+                        {% set row_class="" %}
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+            <tr class="{{row_class}}">
+                <td> {{ loop.index }} </td>
+                <td> {{ student.doc_number }} </td>
+                <td> {{ student.grade }} </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+
+{% endblock %}
