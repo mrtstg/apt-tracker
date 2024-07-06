@@ -25,6 +25,7 @@ class Speciality(BaseModel):
 
 
 class GroupInfo(BaseModel):
+    id: int
     study: str
     name: str
     plan: int
@@ -38,6 +39,7 @@ class GroupInfo(BaseModel):
     def read(data: dict) -> GroupInfo | None:
         try:
             return GroupInfo(
+                id=data["group"]["id"],
                 study=data["group"]["Study"],
                 name=data["group"]["Name"],
                 plan=data["group"]["Plan"],
