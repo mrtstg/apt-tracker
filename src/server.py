@@ -50,7 +50,11 @@ async def group_page(
 
 
 @app.get("/")
-async def index(doc: str | None = None, r=Depends(get_redis_conn)):
+async def index(
+    docq: str | None = None,
+    doc: str | None = Cookie(default=None),
+    r=Depends(get_redis_conn),
+):
     groups = await parser.get_cached_groups(r)
     if len(groups) == 0:
         return generate_error(
@@ -104,8 +108,8 @@ async def index(doc: str | None = None, r=Depends(get_redis_conn)):
         benefits_percentage=benefits_percentage,
         budget_groups=budget_groups,
         non_budget_groups=non_budget_groups,
-        doc=doc,
+        doc=doc if docq is None else docq,
     )
-    if doc is not None:
-        resp.set_cookie("doc", doc, max_age=34560000)
+    if docq is not None:
+        resp.set_cookie("doc", docq, max_age=34560000)
     return resp
