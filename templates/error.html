@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %} Упс! {% endblock %}
+
+{% block body %}
+<section class="hero is-warning is-medium">
+    <div class="hero-body">
+        <p class="title"> Произошла ошибка! </p>
+        {% if error_message %}
+        <p class="subtitle"> {{ error_message }} </p>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
