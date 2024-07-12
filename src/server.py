@@ -41,11 +41,15 @@ async def group_page(
         reverse=True,
     )
     group.students = benefit_students + non_benefit_students
+    if len(group.students) >= group.plan:
+        pass_mark = group.students[group.plan - 1].grade
+    else:
+        pass_mark = None
 
     benefits_amount = len(benefit_students)
 
     return render_template(
-        "group.html", group=group, benefits_amount=benefits_amount, doc=doc
+        "group.html", group=group, benefits_amount=benefits_amount, doc=doc, pass_mark=pass_mark
     )
 
 

@@ -8,6 +8,18 @@
     <nav class="level">
         <div class="level-item has-text-centered">
             <div>
+                <p class="is-size-1 mb-0">
+                    {% if pass_mark != None %}
+                        {{ pass_mark }}
+                    {% else %}
+                        -
+                    {% endif %}
+                </p>
+                <p class="is-size-3 mb-0"> Проходной балл </p>
+            </div>
+        </div>
+        <div class="level-item has-text-centered">
+            <div>
                 <p class="is-size-1 mb-0"> {{ group.plan }} </p>
                 <p class="is-size-3 mb-0"> План набора </p>
             </div>
