@@ -60,11 +60,17 @@ class Student(BaseModel):
     grade: float
     doc_number: str
     benefit: bool = False
+    crossed: bool = False
 
     @staticmethod
     def read(data: list[Any]) -> Student | None:
         try:
-            return Student(grade=data[2], doc_number=data[1], benefit=data[0] == 1)
+            return Student(
+                grade=data[2],
+                doc_number=data[1],
+                benefit=data[0] == 1,
+                crossed=data[3] == 1,
+            )
         except Exception as e:
             logging.error("Failed to parse Student: %s" % str(e))
             return None

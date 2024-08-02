@@ -36,7 +36,7 @@ async def group_page(
 
     benefit_students = list(filter(lambda x: x.benefit, group.students))
     non_benefit_students = sorted(
-        list(filter(lambda x: not x.benefit, group.students)),
+        list(filter(lambda x: not x.benefit and not x.crossed, group.students)),
         key=lambda x: x.grade,
         reverse=True,
     )
@@ -49,7 +49,11 @@ async def group_page(
     benefits_amount = len(benefit_students)
 
     return render_template(
-        "group.html", group=group, benefits_amount=benefits_amount, doc=doc, pass_mark=pass_mark
+        "group.html",
+        group=group,
+        benefits_amount=benefits_amount,
+        doc=doc,
+        pass_mark=pass_mark,
     )
 
 
