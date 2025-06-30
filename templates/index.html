@@ -58,7 +58,7 @@
             <p class="menu-label"> Бюджетные группы </p>
             <ul class="menu-list">
                 {% for group in budget_groups %}
-                <li><a href="/group/{{group.id}}">{{group.name}}</a></li>
+                <li><a href="/group/{{group.id}}">{{group.name}} ({{group.students|length}} чел.)</a></li>
                 {% endfor %}
             </ul>
         </aside>
@@ -68,7 +68,7 @@
             <p class="menu-label"> Небюджетные группы </p>
             <ul class="menu-list">
                 {% for group in non_budget_groups %}
-                <li><a href="/group/{{group.id}}">{{group.name}}</a></li>
+                <li><a href="/group/{{group.id}}">{{group.name}} ({{group.students|length}} чел.)</a></li>
                 {% endfor %}
             </ul>
         </aside>
