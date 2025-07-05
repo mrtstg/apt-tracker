@@ -41,7 +41,7 @@ async def group_page(
         reverse=True,
     )
     group.students = benefit_students + non_benefit_students
-    if len(group.students) >= group.plan:
+    if len(group.students) >= group.plan and group.students:
         pass_mark = group.students[group.plan - 1].grade
     else:
         pass_mark = None
