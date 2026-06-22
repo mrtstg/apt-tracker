@@ -6,6 +6,7 @@ from src.dependencies import get_redis_conn
 from .models import *
 from .parser import SiteParser
 from .templates import render_template
+from fastapi.staticfiles import StaticFiles
 
 app = FastAPI(docs_url=None, redoc_url=None, openapi_url=None)
 app.add_middleware(
@@ -15,6 +16,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+app.mount("/static", StaticFiles(directory="static"), name="static")
 parser = SiteParser()
 
 
