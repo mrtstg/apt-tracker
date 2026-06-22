@@ -14,7 +14,7 @@ class Speciality(BaseModel):
     def read(data: dict) -> Speciality | None:
         try:
             return Speciality(
-                id=data["id"],
+                id=data["id"] if not isinstance(data["id"], str) else int(data["id"]),
                 education=data["Education"],
                 name=data["Name"],
                 is_commercial=data["Study"] == "Коммерческая",

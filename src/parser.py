@@ -81,9 +81,7 @@ class SiteParser:
         )
         resp.raise_for_status()
         groups: dict[str, Any] = resp.json()["groups"]
-        needed_group_ids: list[int] = (
-            groups["dep_0_study_Бюджет"] + groups["dep_0_study_Внебюджет"]
-        )
+        needed_group_ids: list[int] = list(map(lambda x: int(x) if isinstance(x, str) else x, groups["dep_0_study_Бюджет"] + groups["dep_0_study_Внебюджет"]))
         filtered_groups: list[dict] = list(
             filter(lambda x: isinstance(x, dict), map(lambda x: x[1], groups.items()))
         )
