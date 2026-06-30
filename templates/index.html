@@ -51,6 +51,8 @@
         </div>
         {% endif %}
     </nav>
+</section>
+<section class="section">
     <h2 class="title is-3"> Списки групп </h2>
     <div class="is-flex is-flex-direction-row is-flex-wrap-wrap is-fullwidth is-justify-content-space-around">
         {% if budget_groups %}
@@ -74,6 +76,8 @@
         </aside>
         {% endif %}
     </div>
+</section>
+<section class="section">
     <h2 class="title is-3"> Указать СНИЛС </h2>
     {% if doc == None %}
     <div class="notification is-primary">
@@ -93,5 +97,33 @@
         <button class="button mt-3 is-success is-fullwidth"> Сохранить </button>
     </form>
 </section>
-
+<section class="section">
+    <h2 class="title is-3"> Общий рейтинг </h2>
+    <h3 class="subtitle is-4"> он ничего не значит, просто список всех абитуриентов </h3>
+    <table class="table mx-auto is-centered">
+        <thead>
+            <tr>
+                <th> Номер </th>
+                <th> Номер СНИЛС </th>
+                <th> Балл </th>
+                <th> Группа </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student in all_students %}
+                {% if doc == student.doc_number %}
+                    {% set row_class="is-selected" %}
+                {% else %}
+                    {% set row_class="" %}
+                {% endif %}
+                <tr class="{{ row_class }}">
+                    <td> {{ loop.index }} </td>
+                    <td> {{ student.doc_number }} </td>
+                    <td> {{ student.grade }} </td>
+                    <td> {{ student.group }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
 {% endblock %}

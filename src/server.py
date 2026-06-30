@@ -74,6 +74,10 @@ async def index(
     group_infos = await parser.get_groups_info_cached(r, [i.id for i in groups])
     # точно распаршеные группы
     filtered_info: list[GroupInfo] = list(filter(lambda x: x is not None, group_infos))  # type: ignore
+    for group_index, group in enumerate(filtered_info):
+        filtered_info[group_index].students = list(
+            filter(lambda x: not x.crossed, group.students)
+        )
     if len(group_infos) != len(filtered_info):
         return generate_error(
             "Не удалось получить полную информацию о группах с сайта. Попробуйте позже."
@@ -109,6 +113,7 @@ async def index(
     # всего льготников
     total_benefits = len(list(filter(lambda x: x.benefit, all_students)))
     benefits_percentage = round(budget_benefits / total_budget_plan, 2)
+    all_students.sort(key=lambda x: x.grade, reverse=True)
     resp = render_template(
         "index.html",
         total_students=total_students,
@@ -119,6 +124,7 @@ async def index(
         budget_groups=budget_groups,
         non_budget_groups=non_budget_groups,
         doc=doc if docq is None else docq,
+        all_students=all_students,
     )
     if docq is not None:
         resp.set_cookie("doc", docq, max_age=34560000)

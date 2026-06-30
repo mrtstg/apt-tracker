@@ -47,7 +47,7 @@ class GroupInfo(BaseModel):
                 students=list(
                     filter(
                         lambda x: x is not None,
-                        map(lambda x: Student.read(x), data["out"]),
+                        map(lambda x: Student.read(x, data["group"]["Name"]), data["out"]),
                     )
                 ),  # type: ignore
             )
@@ -61,15 +61,17 @@ class Student(BaseModel):
     doc_number: str
     benefit: bool = False
     crossed: bool = False
+    group: str | None = None
 
     @staticmethod
-    def read(data: list[Any]) -> Student | None:
+    def read(data: list[Any], group: str | None = None) -> Student | None:
         try:
             return Student(
                 grade=data[2],
                 doc_number=data[1],
                 benefit=data[0] == 1,
                 crossed=data[3] == 1 or data[3] == "1",
+                group=group
             )
         except Exception as e:
             logging.error("Failed to parse Student: %s" % str(e))
