@@ -69,7 +69,7 @@ class Student(BaseModel):
                 grade=data[2],
                 doc_number=data[1],
                 benefit=data[0] == 1,
-                crossed=data[3] == 1,
+                crossed=data[3] == 1 or data[3] == "1",
             )
         except Exception as e:
             logging.error("Failed to parse Student: %s" % str(e))
